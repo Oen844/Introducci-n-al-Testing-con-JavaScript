@@ -2,16 +2,16 @@ const Person = require('./06-person');
 
 describe('Test for Person', () => {
   let person;
-  //Arrange / Given
+  // Arrange / Given
   beforeEach(() => {
     person = new Person('Juan', 80, 1.80);
   });
   test('shold return down', () => {
-    //Arrange / Given
+    // Arrange / Given
     person.weight = 45;
-    //Act / When
+    // Act / When
     const imc = person.calcIMC();
-    //Assert / Then
+    // Assert / Then
     expect(imc).toBe('down');
   });
 
