@@ -11,36 +11,36 @@ describe('Test for books', () => {
   let app = null;
   let server = null;
   let database = null;
+
   beforeAll(async () => {
     app = createApp();
-    server = app.listen(3050);
+    server = app.listen(3001);
     const client = new MongoClient(MONGO_URI, {
       useNewUrlParser: true,
       useUnifiedTopology: true,
     });
-
     await client.connect();
     database = client.db(DB_NAME);
   });
 
   afterAll(async () => {
-    await database.dropDatabase();
     await server.close();
+    await database.dropDatabase();
   });
 
   describe('test for [GET] /api/v1/books', () => {
-    test('Shold return list books', () => {
+    test('should return a list books', async () => {
       // Arrange
-      const seedData = database.collection('books').insertMany([
+      const seedData = await database.collection('books').insertMany([
         {
-          name: 'Harry Potter',
-          year: '1997',
-          author: 'J.K. Rowling',
+          name: 'Book1',
+          year: 1998,
+          author: 'nicolas',
         },
         {
-          name: 'Harry Potter2',
-          year: '2000',
-          author: 'J.K. Rowling',
+          name: 'Book2',
+          year: 1998,
+          author: 'nicolas',
         },
       ]);
       console.log(seedData);
@@ -51,7 +51,7 @@ describe('Test for books', () => {
         .then(({ body }) => {
           console.log(body);
           // Assert
-          expect(body.length).toEqual(2);
+          expect(body.length).toEqual(seedData.insertedCount);
         });
     });
   });
