@@ -1,7 +1,5 @@
 const request = require('supertest');
 
-const createApp = require('../src/app');
-
 const { generateManyBook } = require('../src/fakes/book.fake');
 
 const mockGetAll = jest.fn();
@@ -10,6 +8,8 @@ jest.mock('../src/lib/mongo.lib', () => jest.fn().mockImplementation(() => ({
   getAll: mockGetAll,
   create: () => {},
 })));
+
+const createApp = require('../src/app');
 
 describe('Test for books', () => {
   let app = null;
@@ -24,7 +24,7 @@ describe('Test for books', () => {
   });
 
   describe('test for [GET] /api/v1/books', () => {
-    test('Shold return list books', () => {
+    test('should return a list books', () => {
       // Arrange
       const fakeBooks = generateManyBook(3);
       mockGetAll.mockResolvedValue(fakeBooks);
